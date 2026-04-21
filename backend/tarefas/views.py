@@ -2,10 +2,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import JsonResponse
-from .models import Tarefa
+from .models import Tarefa, Usuarios
 
 def listar_tarefas(request):
     tarefas = Tarefa.objects.all().values()
+    usuario = request.user 
+    tarefas = Tarefa.objects.filter(usuario_responsavel=usuario)
+    
     return JsonResponse(list(tarefas), safe=False)
 
 def listar_tarefas_por_status(request,status):
